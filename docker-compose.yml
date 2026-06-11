@@ -1,6 +1,5 @@
 services:
   db:
-    # Указываем прокси напрямую в имени образа
     image: dockerhub.timeweb.cloud/library/postgres:16
     container_name: project_postgres
     restart: always
@@ -12,6 +11,14 @@ services:
       - "5432:5432"
     volumes:
       - ./.pgdata:/var/lib/postgresql/data
+    networks:
+      - app_network
+    # --- ДОБАВЛЯЕМ ПРОВЕРКУ ЗДОРОВЬЯ БАЗЫ ---
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 3s
+      timeout: 3s
+      retries: 5
 
   web:
     build: .
@@ -20,9 +27,18 @@ services:
     ports:
       - "${APP_PORT}:${APP_PORT}"
     volumes:
-      - ./app:/app/app  # Связывает вашу локальную папку app с папкой внутри контейнера
+      - ./app:/app/app
+    env_file:
+      - .env
     environment:
-      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/${DB_NAME}
       - UVICORN_RELOAD=True
+    # --- ОБНОВЛЯЕМ ЗАВИСИМОСТЬ ---
     depends_on:
-      - db
+      db:
+        condition: service_healthy  # Ждать полной готовности Postgres принимать соединения
+    networks:
+      - app_network
+
+networks:
+  app_network:
+    driver: bridge
