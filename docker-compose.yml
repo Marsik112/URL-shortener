@@ -25,7 +25,7 @@ services:
     container_name: project_app
     restart: always
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - "${APP_PORT}:8080"
     volumes:
       - ./app:/app/app
     env_file:

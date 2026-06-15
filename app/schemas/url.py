@@ -1,10 +1,10 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-class URL(BaseModel):
+class URLCreate(BaseModel):
     url: str
 
-class URL_create(BaseModel):
+class URLResponse(BaseModel):
     id : int
     url: str
     short_url: str
