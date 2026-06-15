@@ -13,3 +13,4 @@ class Url(Base):
     short_url: Mapped[Optional[str | None]] = mapped_column(String(10), nullable=True, unique=True)
     created_at: Mapped[datetime] = mapped_column(server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(server_default=func.now())
+    clicks: Mapped[int] = mapped_column(nullable=False, default=0, )

@@ -10,5 +10,6 @@ class URLResponse(BaseModel):
     short_url: str
     created_at: datetime
     updated_at: datetime
+    clicks: int
 
     model_config = {"from_attributes": True}
