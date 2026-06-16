@@ -268,3 +268,7 @@ This project was built as a learning backend project to practice:
 * Basic CRUD operations
 * Redirect responses
 * Simple click statistics
+
+## Project URL
+
+https://roadmap.sh/projects/url-shortening-service
