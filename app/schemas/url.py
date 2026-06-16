@@ -13,3 +13,10 @@ class URLResponse(BaseModel):
     clicks: int
 
     model_config = {"from_attributes": True}
+
+class URLUpdate(BaseModel):
+    url: str
+
+class URLListItem(BaseModel):
+    url: str
+    short_url: str

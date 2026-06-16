@@ -32,10 +32,9 @@ services:
       - .env
     environment:
       - UVICORN_RELOAD=True
-    # --- ОБНОВЛЯЕМ ЗАВИСИМОСТЬ ---
     depends_on:
       db:
-        condition: service_healthy  # Ждать полной готовности Postgres принимать соединения
+        condition: service_healthy
     networks:
       - app_network
 

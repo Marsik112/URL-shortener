@@ -1,5 +1,10 @@
-.pgdata
-.venv
-__pycache__
+.pgdata/
+.venv/
+__pycache__/
 *.pyc
-.git
+.git/
+.env
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.log

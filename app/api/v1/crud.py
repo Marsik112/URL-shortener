@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.schemas.url import URLCreate
 from app.api.v1.models import Url
 from app.api.v1.generator_url import generate_short_url
+from datetime import datetime, timezone
 
 def create_url(db: Session, url_data: URLCreate) -> Url:
     
@@ -28,3 +29,17 @@ def increment_clicks(db: Session, url_data: Url) -> Url:
     db.refresh(url_data)
     return url_data
 
+def update_url(db: Session, url_data: Url, new_url: str) -> Url:
+    url_data.url = new_url
+    url_data.updated_at = datetime.now(timezone.utc)
+    db.commit()
+    db.refresh(url_data)
+    return url_data
+
+def delete_url(db: Session, url_data: Url) -> None:
+    db.delete(url_data)
+    db.commit()
+
+def get_all_url(db: Session) -> list:
+    url_list = db.execute(select(Url.url, Url.short_url)).mappings().all()
+    return url_list
